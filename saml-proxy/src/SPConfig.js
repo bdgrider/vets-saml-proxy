@@ -45,6 +45,7 @@ export default class SPConfig {
     this.requestAcsUrl = argv.spAcsUrls[0];
     this.failureRedirect = SP_ERROR_URL;
     this.failureFlash = true;
+    this.spButtonLoginText = argv.spButtonText
   }
 
   getMetadataParams(req) {

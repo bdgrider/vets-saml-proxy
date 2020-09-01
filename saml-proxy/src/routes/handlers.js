@@ -31,13 +31,15 @@ export const samlLogin = function(template) {
     const authnRequest = req.authnRequest ? req.authnRequest : req.session.authnRequest;
     req.authnRequest = authnRequest;
     const samlp = new _samlp(req.sp.options.getResponseParams(), new SAML.SAML(req.sp.options.getResponseParams()));
-    const spSLoginLink = req.sp.options.authnContextClassRef;
+    const spLoginLink = req.sp.options.authnContextClassRef;
+    const spLoginButtonText = req.sp.options.spButtonLoginText;
     try{
       [
-        ['id_me_login_link', spSLoginLink],
+        ['sp_login_link', spLoginLink],
         ['dslogon_login_link', 'dslogon'],
         ['mhv_login_link', 'myhealthevet'],
-        ['id_me_signup_link', 'http://idmanagement.gov/ns/assurance/loa/3', '&op=signup']
+        ['id_me_signup_link', 'http://idmanagement.gov/ns/assurance/loa/3', '&op=signup'],
+        ['sp_button_text', spLoginButtonText]
       ].reduce((memo, [key, authnContext, exParams = null]) => {
         const params = req.sp.options.getAuthnRequestParams(
           acsUrl,
