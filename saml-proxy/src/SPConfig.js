@@ -11,7 +11,8 @@ const AUTHN_REQUEST_TEMPLATE = template(
 );
 
 const providedMetaData = function(metadataPath) {
-  fs.readFileSync(path.join(process.cwd(), metadataPath), 'utf8');
+  var temp = fs.readFileSync(path.join(process.cwd(), metadataPath), 'utf8');
+  return temp;
 }
 
 export default class SPConfig {
