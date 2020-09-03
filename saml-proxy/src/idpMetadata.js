@@ -55,15 +55,19 @@ export function fetch(url) {
         if (err) {
           return reject(err);
         }
+        var entityDescriptor = docEl.EntityDescriptor;
+        if (entityDescriptor === undefined) {
+          entityDescriptor = docEl.EntitiesDescriptor.EntityDescriptor[0];
+        }
+        
+        if (entityDescriptor) {
+          metadata.issuer = entityDescriptor.$.entityID;
 
-        if (docEl.EntityDescriptor) {
-          metadata.issuer = docEl.EntityDescriptor.$.entityID;
-
-          if (docEl.EntityDescriptor.IDPSSODescriptor && docEl.EntityDescriptor.IDPSSODescriptor.length === 1) {
+          if (entityDescriptor.IDPSSODescriptor && entityDescriptor.IDPSSODescriptor.length === 1) {
 
             metadata.protocol = 'samlp';
 
-            let ssoEl = docEl.EntityDescriptor.IDPSSODescriptor[0];
+            let ssoEl = entityDescriptor.IDPSSODescriptor[0];
             metadata.signRequest = ssoEl.$.WantAuthnRequestsSigned;
 
             ssoEl.KeyDescriptor.forEach((keyEl) => {
@@ -86,11 +90,6 @@ export function fetch(url) {
             metadata.slo.redirectUrl = getBindingLocation(ssoEl.SingleLogoutService, 'urn:oasis:names:tc:saml:2.0:bindings:http-redirect');
             metadata.slo.postUrl = getBindingLocation(ssoEl.SingleLogoutService, 'urn:oasis:names:tc:saml:2.0:bindings:http-post');
           }
-        }
-
-        var entityDescriptor = docEl.EntityDescriptor;
-        if (entityDescriptor === undefined) {
-          entityDescriptor = docEl.EntitiesDescriptor.EntityDescriptor;
         }
 
         if (entityDescriptor.RoleDescriptor) {
