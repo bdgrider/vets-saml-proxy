@@ -88,10 +88,15 @@ export function fetch(url) {
           }
         }
 
-        if (docEl.EntityDescriptor.RoleDescriptor) {
+        var entityDescriptor = docEl.EntityDescriptor;
+        if (entityDescriptor === undefined) {
+          entityDescriptor = docEl.EntitiesDescriptor.EntityDescriptor;
+        }
+
+        if (entityDescriptor.RoleDescriptor) {
           metadata.protocol = 'wsfed';
           try {
-            let roleEl = docEl.EntityDescriptor.RoleDescriptor.find((el) => {
+            let roleEl = entityDescriptor.RoleDescriptor.find((el) => {
               return el.$['xsi:type'].endsWith(':SecurityTokenServiceType');
             });
             metadata.sso.redirectUrl = roleEl.PassiveRequestorEndpoint[0].EndpointReference[0].Address[0]._;

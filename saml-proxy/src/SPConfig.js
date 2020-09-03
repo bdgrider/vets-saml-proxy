@@ -10,6 +10,10 @@ const AUTHN_REQUEST_TEMPLATE = template(
   fs.readFileSync(path.join(process.cwd(), './templates/authnrequest.tpl'), 'utf8')
 );
 
+const providedMetaData = function(metadataPath) {
+  fs.readFileSync(path.join(process.cwd(), metadataPath), 'utf8');
+}
+
 export default class SPConfig {
   constructor(argv) {
     this.port = argv.spPort;
@@ -45,7 +49,10 @@ export default class SPConfig {
     this.requestAcsUrl = argv.spAcsUrls[0];
     this.failureRedirect = SP_ERROR_URL;
     this.failureFlash = true;
-    this.spButtonLoginText = argv.spButtonText
+    this.spButtonLoginText = argv.spButtonText;
+    if (argv.spIdpProvidedMetata) {
+      this.providedMetaData = providedMetaData(argv.spIdpProvidedMetata);
+    }
   }
 
   getMetadataParams(req) {

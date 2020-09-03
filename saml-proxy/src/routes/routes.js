@@ -34,7 +34,7 @@ export default function addRoutes(app, idpConfig, spConfig) {
   });
 
   app.get(SP_METADATA_URL, function(req, res, next) {
-    const xml = METADATA_TEMPLATE(spConfig.getMetadataParams(req));
+    const xml = spConfig.providedMetadata?spConfig.providedMetadata:METADATA_TEMPLATE(spConfig.getMetadataParams(req));
     res.set('Content-Type', 'text/xml');
     res.send(xml);
   });
