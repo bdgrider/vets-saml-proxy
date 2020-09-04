@@ -39,7 +39,7 @@ export const samlLogin = function (template) {
       new SAML.SAML(req.sp.options.getResponseParams())
     );
     [
-      ["id_me_login_link", "http://idmanagement.gov/ns/assurance/loa/3"],
+      ["sp_login_link", spLoginLink],
       ["dslogon_login_link", "dslogon"],
       ["mhv_login_link", "myhealthevet"],
       [
