@@ -81,6 +81,7 @@ export const samlLogin = function(template) {
  */
 
 export const parseSamlRequest = function(req, res, next) {
+  console.log("req=>" + JSON.stringify(req.body));
   logRelayState(req, logger, 'from Okta');
   samlp.parseRequest(req, function(err, data) {
     if (err) {
