@@ -7,13 +7,19 @@ import path from "path";
 import template from "lodash.template";
 
 const AUTHN_REQUEST_TEMPLATE = template(
-  fs.readFileSync(path.join(process.cwd(), './templates/authnrequest.tpl'), 'utf8')
+  fs.readFileSync(
+    path.join(process.cwd(), "./templates/authnrequest.tpl"),
+    "utf8"
+  )
 );
 
-const providedMetaData = function(metadataPath) {
-  var temp = fs.readFileSync(path.join(process.cwd(), metadataPath), 'utf8');
-  return temp;
-}
+const providedMetaData = (metadataPath) => {
+  var xmlMetadata = fs.readFileSync(
+    path.join(process.cwd(), metadataPath),
+    "utf8"
+  );
+  return xmlMetadata;
+};
 
 export default class SPConfig {
   constructor(argv) {
@@ -28,8 +34,7 @@ export default class SPConfig {
     this.idpThumbprint = argv.spIdpThumbprint;
     this.idpMetaUrl = argv.spIdpMetaUrl;
     this.audience = argv.spAudience;
-    this.providerName = argv.spProviderName,
-    this.acsUrls = argv.spAcsUrls;
+    (this.providerName = argv.spProviderName), (this.acsUrls = argv.spAcsUrls);
     this.signAuthnRequests = argv.spSignAuthnRequests;
     this.signatureAlgorithm = argv.spSignatureAlgorithm;
     this.digestAlgorithm = argv.spDigestAlgorithm;
@@ -64,16 +69,16 @@ export default class SPConfig {
       realm: this.audience,
       cert: removeHeaders(this.spCert),
       encryptionCert: removeHeaders(this.spEncryptionCert),
-      acsUrls: this.acsUrls.map(url => getReqUrl(req, url)),
+      acsUrls: this.acsUrls.map((url) => getReqUrl(req, url)),
       sloUrl: getReqUrl(req, SP_SLO_URL),
-      nameIDFormat: this.nameIDFormat
+      nameIDFormat: this.nameIDFormat,
     };
   }
 
   getRequestSecurityTokenParams(wreply, wctx) {
     return {
       wreply: wreply,
-      wctx: wctx || this.relayState
+      wctx: wctx || this.relayState,
     };
   }
 
@@ -88,25 +93,25 @@ export default class SPConfig {
       forceAuthn: forceAuthn,
       authnContext: authnContext || this.authnContextClassRef,
       requestContext: {
-        NameIDFormat: this.nameIDFormat
+        NameIDFormat: this.nameIDFormat,
       },
       requestTemplate: AUTHN_REQUEST_TEMPLATE({
         ForceAuthn: forceAuthn,
         NameIDFormat: this.requestNameIDFormat,
-        AuthnContext: this.requestAuthnContext
+        AuthnContext: this.requestAuthnContext,
       }),
       signatureAlgorithm: this.signatureAlgorithm,
       digestAlgorithm: this.digestAlgorithm,
       deflate: this.deflate,
       RelayState: relayState || this.relayState,
       failureRedirect: this.failureRedirect,
-      failureFlash: this.failureFlash
+      failureFlash: this.failureFlash,
     };
 
     if (this.signAuthnRequests) {
       params.signingKey = {
         cert: this.spCert,
-        key: this.spKey
+        key: this.spKey,
       };
     }
     return params;
@@ -118,7 +123,7 @@ export default class SPConfig {
       thumbprint: this.idpThumbprint,
       cert: removeHeaders(this.idpCert),
       realm: this.audience,
-      identityProviderUrl: this.idpSsoUrl,  //wsfed
+      identityProviderUrl: this.idpSsoUrl, //wsfed
       recipientUrl: destinationUrl,
       destinationUrl: destinationUrl,
       protocolBinding: this.idpSsoBinding,
@@ -131,7 +136,7 @@ export default class SPConfig {
       checkNameQualifier: true,
       checkSPNameQualifier: true,
       failureRedirect: this.failureRedirect,
-      failureFlash: this.failureFlash
+      failureFlash: this.failureFlash,
     };
   }
 
@@ -143,7 +148,7 @@ export default class SPConfig {
       identityProviderUrl: this.idpSloUrl,
       identityProviderSigningCert: this.idpCert,
       key: this.spKey,
-      cert: this.spCert
+      cert: this.spCert,
     };
   }
 }
