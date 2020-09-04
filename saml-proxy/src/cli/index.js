@@ -296,9 +296,9 @@ export function processArgs() {
           "urn:oasis:names:tc:SAML:2.0:ac:classes:PasswordProtectedTransport",
       },
       spButtonText: {
-        description: 'Labels Service Provider button',
+        description: "Labels·Service·Provider·button",
         required: true,
-        string: true
+        string: true,
       },
       spCert: {
         description: "SP/RP Public Key Signature Certificate (PEM)",

@@ -45,13 +45,13 @@ export default function addRoutes(app, idpConfig, spConfig) {
     samlp.metadata(req.idp.options)(req, res);
   });
 
-  app.get(SP_METADATA_URL, function(req, res, next) {
+  app.get(SP_METADATA_URL, function (req, res, next) {
     var xml = spConfig.providedMetaData;
     if (xml === undefined) {
-      console.log("xml is uundfined, using template")
+      console.log("xml is uundfined, using template");
       xml = METADATA_TEMPLATE(spConfig.getMetadataParams(req));
     }
-    res.set('Content-Type', 'text/xml');
+    res.set("Content-Type", "text/xml");
     res.send(xml);
   });
 

@@ -58,16 +58,15 @@ export function fetch(url) {
         if (entityDescriptor === undefined) {
           entityDescriptor = docEl.EntitiesDescriptor.EntityDescriptor[0];
         }
-        
+        if (entityDescriptor) {
+          metadata.issuer = entityDescriptor.$.entityID;
+        }
         if (entityDescriptor) {
           metadata.issuer = entityDescriptor.$.entityID;
 
-        if (docEl.EntityDescriptor) {
-          metadata.issuer = docEl.EntityDescriptor.$.entityID;
-
           if (
-            docEl.EntityDescriptor.IDPSSODescriptor &&
-            docEl.EntityDescriptor.IDPSSODescriptor.length === 1
+            entityDescriptor.IDPSSODescriptor &&
+            entityDescriptor.IDPSSODescriptor.length === 1
           ) {
             metadata.protocol = "samlp";
 
