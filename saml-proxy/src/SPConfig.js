@@ -58,7 +58,6 @@ export default class SPConfig {
     this.spButtonLoginText = argv.spButtonText;
     if (argv.spIdpProvidedMetata) {
       this.providedMetaData = providedMetaData(argv.spIdpProvidedMetata);
-      console.log("providedMetaData set to " + this.providedMetaData);
     }
   }
 
