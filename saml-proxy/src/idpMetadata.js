@@ -70,7 +70,7 @@ export function fetch(url) {
           ) {
             metadata.protocol = "samlp";
 
-            let ssoEl = docEl.EntityDescriptor.IDPSSODescriptor[0];
+            let ssoEl = entityDescriptor.IDPSSODescriptor[0];
             metadata.signRequest = ssoEl.$.WantAuthnRequestsSigned;
 
             ssoEl.KeyDescriptor.forEach((keyEl) => {
@@ -107,10 +107,10 @@ export function fetch(url) {
           }
         }
 
-        if (docEl.EntityDescriptor.RoleDescriptor) {
+        if (entityDescriptor.RoleDescriptor) {
           metadata.protocol = "wsfed";
           try {
-            let roleEl = docEl.EntityDescriptor.RoleDescriptor.find((el) => {
+            let roleEl = entityDescriptor.RoleDescriptor.find((el) => {
               return el.$["xsi:type"].endsWith(":SecurityTokenServiceType");
             });
             metadata.sso.redirectUrl =
