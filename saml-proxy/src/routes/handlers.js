@@ -176,8 +176,8 @@ const processAcs = (acsUrl, options) => [
 ];
 
 export const acsFactory = (app, acsUrl) => {
-  app.get(getPath(acsUrl), processAcs(acsUrl));
-  app.post(getPath(acsUrl), processAcs(acsUrl));
+  app.get(getPath(acsUrl), processAcs(acsUrl, app.options));
+  app.post(getPath(acsUrl), processAcs(acsUrl, app.options));
 };
 
 const setUpSaml = function (req, res, view) {};

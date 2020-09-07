@@ -147,16 +147,21 @@ export const scrubUserClaims = (
 
 export const testLevelOfAssuranceOrRedirect = (options: any) => {
   return (req: IConfiguredRequest, res: Response, next: NextFunction) => {
+    const spOptions = req.sp.options;
     if (
       req.user &&
       req.user.claims &&
       !sufficientLevelOfAssurance(req.user.claims)
     ) {
+      let idManagmentAssuranceUrl = spOptions.idManagmentAssuranceUrl;
+      if (idManagmentAssuranceUrl === undefined) {
+        idManagmentAssuranceUrl = "http://idmanagement.gov/ns/assurance/loa/3";
+      }
       res.redirect(
         url.format({
           pathname: SP_VERIFY,
           query: {
-            authnContext: "http://idmanagement.gov/ns/assurance/loa/3",
+            authnContext: idManagmentAssuranceUrl,
           },
         })
       );

@@ -59,6 +59,9 @@ export default class SPConfig {
     if (argv.spIdpProvidedMetata) {
       this.providedMetaData = providedMetaData(argv.spIdpProvidedMetata);
     }
+    if (argv.spIdManagmentAssuranceUrl) {
+      this.idManagmentAssuranceUrl = argv.spIdManagmentAssuranceUrl;
+    }
   }
 
   getMetadataParams(req) {
