@@ -10,6 +10,7 @@ import {
   urlUserErrorTemplate,
 } from "./acsHandlers";
 import logger from "../logger";
+import { option } from "yargs";
 
 export const getHashCode = (str) => {
   var hash = 0;
@@ -166,9 +167,9 @@ export const idpSignIn = function (req, res) {
   samlp.auth(authOptions)(req, res);
 };
 
-const processAcs = (acsUrl) => [
+const processAcs = (acsUrl, options) => [
   buildPassportLoginHandler(acsUrl),
-  testLevelOfAssuranceOrRedirect,
+  testLevelOfAssuranceOrRedirect(options),
   loadICN,
   scrubUserClaims,
   serializeAssertions,

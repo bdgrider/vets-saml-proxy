@@ -145,27 +145,25 @@ export const scrubUserClaims = (
   next();
 };
 
-export const testLevelOfAssuranceOrRedirect = (
-  req: IConfiguredRequest,
-  res: Response,
-  next: NextFunction
-) => {
-  if (
-    req.user &&
-    req.user.claims &&
-    !sufficientLevelOfAssurance(req.user.claims)
-  ) {
-    res.redirect(
-      url.format({
-        pathname: SP_VERIFY,
-        query: {
-          authnContext: "http://idmanagement.gov/ns/assurance/loa/3",
-        },
-      })
-    );
-  } else {
-    next();
-  }
+export const testLevelOfAssuranceOrRedirect = (options: any) => {
+  return (req: IConfiguredRequest, res: Response, next: NextFunction) => {
+    if (
+      req.user &&
+      req.user.claims &&
+      !sufficientLevelOfAssurance(req.user.claims)
+    ) {
+      res.redirect(
+        url.format({
+          pathname: SP_VERIFY,
+          query: {
+            authnContext: "http://idmanagement.gov/ns/assurance/loa/3",
+          },
+        })
+      );
+    } else {
+      next();
+    }
+  };
 };
 
 export const serializeAssertions = (
